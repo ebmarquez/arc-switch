@@ -8,7 +8,7 @@ A Go utility to retrieve SNMP MIB data from network devices using a predefined s
 - Uses predefined OID configurations from a JSON file
 - Supports a directory of MIB files for OID resolution
 - Configurable polling interval
-- Outputs structured JSON data
+- Outputs structured JSON data to syslog for integration with monitoring systems
 
 ## Usage
 
@@ -61,6 +61,33 @@ A Go utility to retrieve SNMP MIB data from network devices using a predefined s
       "description": "System uptime"
     }
   ]
+}
+```
+
+## Syslog Output
+
+Data is output to syslog in JSON format with the following structure:
+
+```json
+{
+  "timestamp": "2025-06-20T13:45:30Z",
+  "device_name": "Switch1",
+  "data": {
+    "oids": [
+      {
+        "name": "sysName",
+        "oid": "1.3.6.1.2.1.1.5.0",
+        "value": "core-switch-01",
+        "type": "OctetString"
+      },
+      {
+        "name": "sysUpTime",
+        "oid": "1.3.6.1.2.1.1.3.0",
+        "value": 123456789,
+        "type": "TimeTicks"
+      }
+    ]
+  }
 }
 ```
 
