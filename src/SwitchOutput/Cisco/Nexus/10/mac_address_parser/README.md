@@ -19,11 +19,10 @@ chmod +x download-latest.sh
 ```
 
 **Supported platforms:**
+
 - `linux-amd64` - Linux 64-bit (default)
 - `linux-arm64` - Linux ARM64
-- `darwin-amd64` - macOS Intel
-- `darwin-arm64` - macOS Apple Silicon
-- `windows-amd64` - Windows 64-bit
+
 
 ### Option 2: One-liner Download & Run
 
