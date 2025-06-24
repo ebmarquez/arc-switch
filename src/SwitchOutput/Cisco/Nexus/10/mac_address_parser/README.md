@@ -2,6 +2,58 @@
 
 This tool parses the output of the `show mac address-table` command from Cisco Nexus switches and converts each entry to JSON format.
 
+## 🚀 Quick Start - Download Pre-built Binaries
+
+### Option 1: Using the Download Script (Recommended)
+
+```bash
+# Download and run the script
+wget https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
+chmod +x download-latest.sh
+
+# Download latest release for your platform
+./download-latest.sh
+
+# Or specify version and platform
+./download-latest.sh v0.0.3-alpha.1 linux-amd64
+```
+
+**Supported platforms:**
+- `linux-amd64` - Linux 64-bit (default)
+- `linux-arm64` - Linux ARM64
+- `darwin-amd64` - macOS Intel
+- `darwin-arm64` - macOS Apple Silicon
+- `windows-amd64` - Windows 64-bit
+
+### Option 2: One-liner Download & Run
+
+```bash
+# Download and run in one command
+bash <(wget -qO- https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh)
+```
+
+### Option 3: Manual Download
+
+Visit the [Releases page](https://github.com/ebmarquez/arc-switch/releases) to download pre-compiled binaries for your platform.
+
+## 🔧 Quick Usage with Pre-built Binary
+
+Once downloaded, you can use the MAC address parser:
+
+```bash
+# Extract the downloaded archive
+tar -xzf mac_address_parser-v0.0.3-alpha.1-linux-amd64.tar.gz
+
+# Process a file and output to stdout
+./mac_address_parser -input show-mac-address-table.txt
+
+# Process a file and write to another file
+./mac_address_parser -input show-mac-address-table.txt -output mac-table.json
+
+# Process a JSON commands file and run the MAC table command
+./mac_address_parser -commands network-commands.json -output mac-table.json
+```
+
 ## Features
 
 - Parses Cisco Nexus MAC address table output
@@ -9,6 +61,24 @@ This tool parses the output of the `show mac address-table` command from Cisco N
 - Outputs each entry as a JSON object
 - Support for reading from file or stdin
 - Support for writing to file or stdout
+- Uses `vsh` CLI for Cisco Nexus Linux shell compatibility
+- Cross-platform binaries available
+
+## 🛠️ Building from Source
+
+If you prefer to build from source:
+
+```bash
+# Clone the repository
+git clone https://github.com/ebmarquez/arc-switch.git
+cd arc-switch/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser
+
+# Build the binary
+go build -o mac_address_parser mac_address_parser.go
+
+# Run it
+./mac_address_parser --help
+```
 
 ## Usage
 
