@@ -81,6 +81,7 @@ Both workflows will create:
 - Repository must have **write permissions** for the GitHub token
 - Go 1.21+ (automatically installed by the workflow)
 - The `src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/` directory structure
+- Uses latest GitHub Actions (checkout@v4, setup-go@v4, upload/download-artifact@v4)
 
 ## Notes
 
@@ -88,3 +89,4 @@ Both workflows will create:
 - Binaries are built with optimizations (`-ldflags="-w -s"`) for smaller size
 - Cross-compilation is enabled for all supported platforms
 - Checksums are automatically generated for integrity verification
+- Uses the latest GitHub Actions to avoid deprecation warnings

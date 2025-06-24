@@ -42,14 +42,13 @@ jobs:
         CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o mac_address_parser mac_address_parser.go
         chmod +x mac_address_parser
         
-    - name: Create release directory
-      run: |
-        mkdir -p release-assets
-        
     - name: Package binary and assets
       run: |
+        # Create release directory in the workspace root
+        mkdir -p $GITHUB_WORKSPACE/release-assets
+        # Create the tar archive
         cd src/SwitchOutput/Cisco/Nexus/10/mac_address_parser
-        tar -czf ../../../../../release-assets/mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz \
+        tar -czf $GITHUB_WORKSPACE/release-assets/mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz \
           mac_address_parser README.md mac-address-table-sample.json
           
     - name: Generate checksums
