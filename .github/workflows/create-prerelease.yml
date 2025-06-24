@@ -1,0 +1,161 @@
+name: Create Pre-Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Pre-release version (e.g., v0.0.3-alpha.1)'
+        required: true
+        default: 'v0.0.3-alpha.1'
+      prerelease:
+        description: 'Mark as pre-release'
+        required: true
+        default: true
+        type: boolean
+      release_notes:
+        description: 'Custom release notes (optional)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  create-prerelease:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Build mac_address_parser binary
+      run: |
+        cd src/SwitchOutput/Cisco/Nexus/10/mac_address_parser
+        go mod tidy
+        CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o mac_address_parser mac_address_parser.go
+        chmod +x mac_address_parser
+        
+    - name: Create release directory
+      run: |
+        mkdir -p release-assets
+        
+    - name: Package binary and assets
+      run: |
+        cd src/SwitchOutput/Cisco/Nexus/10/mac_address_parser
+        tar -czf ../../../../../release-assets/mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz \
+          mac_address_parser README.md mac-address-table-sample.json
+          
+    - name: Generate checksums
+      run: |
+        cd release-assets
+        sha256sum mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz > mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz.sha256
+        
+    - name: Get previous tag
+      id: prev_tag
+      run: |
+        PREV_TAG=$(git tag --sort=-version:refname | head -n1)
+        echo "prev_tag=${PREV_TAG}" >> $GITHUB_OUTPUT
+        
+    - name: Generate release notes
+      id: release_notes
+      run: |
+        VERSION="${{ github.event.inputs.version }}"
+        PREV_TAG="${{ steps.prev_tag.outputs.prev_tag }}"
+        CUSTOM_NOTES="${{ github.event.inputs.release_notes }}"
+        
+        if [ -n "$CUSTOM_NOTES" ]; then
+          NOTES="$CUSTOM_NOTES"
+        else
+          NOTES="# Release Notes - ${VERSION}
+
+        ## 🚀 Pre-Release: MAC Address Parser Updates
+
+        This pre-release includes updates to the Cisco Nexus MAC address parser tool.
+
+        ### ✨ New Features & Changes
+
+        - **Updated CLI Tool**: Enhanced Cisco Nexus Linux shell compatibility with vsh
+        - **Improved Error Handling**: Enhanced error messages and variable naming for clarity
+        - **Binary Distribution**: Pre-compiled Linux AMD64 binary included
+
+        ### 🔧 Technical Changes
+
+        - Uses \`vsh\` CLI for Cisco Nexus Linux shell compatibility
+        - Maintained backward compatibility with existing command-line flags
+        - Optimized binary build with reduced size
+
+        ### 📦 What's Included
+
+        - \`mac_address_parser\` - Pre-compiled Linux AMD64 binary
+        - \`README.md\` - Documentation and usage instructions
+        - \`mac-address-table-sample.json\` - Sample output format
+
+        ### 🔗 Usage
+
+        \`\`\`bash
+        # Extract the archive
+        tar -xzf mac_address_parser-${VERSION}-linux-amd64.tar.gz
+
+        # Run with input file
+        ./mac_address_parser -input show-mac-address-table.txt -output output.json
+
+        # Run with commands file
+        ./mac_address_parser -commands commands.json -output output.json
+        \`\`\`
+
+        ### ⚠️ Pre-Release Notice
+
+        This is a pre-release version intended for testing. Please report any issues or feedback.
+
+        ---
+
+        **Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${VERSION}"
+        fi
+        
+        # Save to file for the release
+        echo "$NOTES" > release-notes.md
+        
+        # Also output for use in the release step
+        echo "notes<<EOF" >> $GITHUB_OUTPUT
+        echo "$NOTES" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        
+    - name: Create Git Tag
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag -a "${{ github.event.inputs.version }}" -m "Release ${{ github.event.inputs.version }}"
+        git push origin "${{ github.event.inputs.version }}"
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        name: Release ${{ github.event.inputs.version }}
+        body: ${{ steps.release_notes.outputs.notes }}
+        prerelease: ${{ github.event.inputs.prerelease }}
+        files: |
+          release-assets/mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz
+          release-assets/mac_address_parser-${{ github.event.inputs.version }}-linux-amd64.tar.gz.sha256
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Upload release notes as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: release-notes
+        path: release-notes.md
+        
+    - name: Print release info
+      run: |
+        echo "✅ Pre-release created successfully!"
+        echo "🏷️ Tag: ${{ github.event.inputs.version }}"
+        echo "📦 Assets:"
+        ls -la release-assets/
+        echo "🔗 Release URL: https://github.com/${{ github.repository }}/releases/tag/${{ github.event.inputs.version }}"
