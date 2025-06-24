@@ -58,10 +58,8 @@ arc-switch/
 
 ## ⚡ Automated Releases
 
-This repository uses GitHub Actions to automatically build and release binaries for multiple platforms:
+This repository uses GitHub Actions to automatically build and release binaries for the following platforms:
 
 - Linux (AMD64, ARM64)
-- macOS (Intel, Apple Silicon)
-- Windows (AMD64)
 
 Each release includes checksums for integrity verification and is available through tool-specific download scripts.
