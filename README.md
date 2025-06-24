@@ -47,7 +47,7 @@ Each tool in this repository is self-contained with its own:
 
 ## � Repository Structure
 
-```
+```text
 arc-switch/
 ├── src/SwitchOutput/
 │   ├── Cisco/Nexus/10/
