@@ -1,4 +1,5 @@
 # arc-switch
+
 ARC enabled switches - Network Tools and Parsers
 
 This repository contains multiple tools and parsers for ARC-enabled network switches, including Cisco Nexus parsers and other network utilities.
@@ -12,6 +13,7 @@ This repository contains multiple tools and parsers for ARC-enabled network swit
 This tool parses the output of the `show mac address-table` command from Cisco Nexus switches and converts each entry to JSON format.
 
 **Quick Download:**
+
 ```bash
 # Download the parser-specific script
 wget https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
