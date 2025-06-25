@@ -5,8 +5,8 @@
             "command": "show mac address-table"
         },
         {
-            "name": "interface-status",
-            "command": "show interface status"
+            "name": "show-interface",
+            "command": "show interface"
         },
         {
             "name": "lldp-neighbors",
