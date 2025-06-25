@@ -66,6 +66,58 @@ This file provides guidelines for GitHub Copilot and other AI assistants when he
   - Configuration management
   - Output formatting
 
+### JSON Output Format
+
+All tools must output data in JSON format with standardized fields for consistency and interoperability.
+
+#### Common Required Fields
+
+Every tool output must include these three required fields:
+
+- `data_type`: String identifying the type of data (e.g., "cisco_nexus_mac_table", "interface_status", "lldp_neighbors")
+- `timestamp`: Full timestamp with date and time (format: "MM/DD/YYYY HH:MM:SS AM/PM")
+- `date`: Date in MM/DD/YYYY format
+
+#### Tool-Specific Fields
+
+Beyond the common required fields, each tool will have its own unique fields relevant to the data being processed.
+
+#### Example: Cisco Nexus MAC Table Parser
+
+```json
+{
+  "data_type": "cisco_nexus_mac_table",
+  "timestamp": "06/23/2025 05:05:01 PM",
+  "date": "06/23/2025",
+  "primary_entry": true,
+  "gateway_mac": false,
+  "routed_mac": false,
+  "overlay_mac": false,
+  "vlan": "7",
+  "mac_address": "02ec.a004.0000",
+  "type": "dynamic",
+  "age": "NA",
+  "secure": "F",
+  "ntfy": "F",
+  "port": "Eth1/1",
+  "vpc_peer_link": false
+}
+```
+
+**Tool-Specific Fields for MAC Table Parser:**
+- `primary_entry`: Boolean indicating if this is a primary entry
+- `gateway_mac`: Boolean indicating if this is a gateway MAC
+- `routed_mac`: Boolean indicating if this is a routed MAC
+- `overlay_mac`: Boolean indicating if this is an overlay MAC
+- `vlan`: VLAN ID as string
+- `mac_address`: MAC address in Cisco format (xxxx.xxxx.xxxx)
+- `type`: Entry type (e.g., "dynamic", "static")
+- `age`: Age information or "NA"
+- `secure`: Security flag ("F" or "T")
+- `ntfy`: Notification flag ("F" or "T")
+- `port`: Port identifier
+- `vpc_peer_link`: Boolean, only present when true for vPC peer-link entries
+
 ### Project Structure
 
 - Keep `main.go` small and focused on setup and coordination

@@ -123,12 +123,12 @@ func parseMAC(input string) ([]MacTableEntry, error) {
 	return entries, nil
 }
 
-// runClish runs the given command using the clish CLI and returns its output as a string
-func runClish(command string) (string, error) {
-	cmd := []string{"clish", "-c", command}
+// runVsh runs the given command using the vsh CLI and returns its output as a string
+func runVsh(command string) (string, error) {
+	cmd := []string{"vsh", "-c", command}
 	out, err := exec.Command(cmd[0], cmd[1:]...).CombinedOutput()
 	if err != nil {
-		return "", fmt.Errorf("clish error: %v, output: %s", err, string(out))
+		return "", fmt.Errorf("vsh error: %v, output: %s", err, string(out))
 	}
 	return string(out), nil
 }
@@ -175,13 +175,13 @@ func main() {
 			fmt.Fprintln(os.Stderr, "Error: No 'mac-address-table' command found in commands JSON.")
 			os.Exit(1)
 		}
-		// Run the command using clish
-		clishOut, err := runClish(macCmd)
+		// Run the command using vsh
+		vshOut, err := runVsh(macCmd)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Error running clish: %v\n", err)
+			fmt.Fprintf(os.Stderr, "Error running vsh: %v\n", err)
 			os.Exit(1)
 		}
-		inputData = clishOut
+		inputData = vshOut
 	} else if *inputFile != "" {
 		// Read from file
 		data, err := os.ReadFile(*inputFile)
