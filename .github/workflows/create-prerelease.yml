@@ -105,6 +105,11 @@ jobs:
                 PACKAGE_FILES="$PACKAGE_FILES mac-address-table-sample.json"
               fi
               ;;
+            "interface_counters_parser")
+              if [ -f "interface-counters-sample.json" ]; then
+                PACKAGE_FILES="$PACKAGE_FILES interface-counters-sample.json"
+              fi
+              ;;
             "show_interface_phy_eth")
               if [ -f "show_interface_phy-eth.json" ]; then
                 PACKAGE_FILES="$PACKAGE_FILES show_interface_phy-eth.json"
@@ -189,6 +194,7 @@ jobs:
 
         #### Cisco Nexus Tools
         - **mac_address_parser** - Parse MAC address tables from Cisco Nexus switches
+        - **interface_counters_parser** - Parse interface counter statistics and metrics
 
         #### Dell OS10 Tools
         - **show_interface_phy_eth** - Parse physical Ethernet interface information
