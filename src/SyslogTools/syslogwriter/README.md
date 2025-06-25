@@ -47,10 +47,13 @@ func main() {
 ### Types
 
 #### Writer
+
 Main syslog writer instance.
 
 #### Config
+
 Configuration for the syslog writer:
+
 ```go
 type Config struct {
     Priority     syslog.Priority  // Combined facility and priority
@@ -62,7 +65,9 @@ type Config struct {
 ```
 
 #### Statistics
+
 Processing statistics:
+
 ```go
 type Statistics struct {
     TotalEntries     int
@@ -301,6 +306,7 @@ func main() {
 ## Required JSON Fields
 
 All JSON entries must contain:
+
 - `data_type`: Data type identifier (can serve as tag identifier)
 - `timestamp`: Full timestamp with date and time  
 - `date`: Date in MM/DD/YYYY format
@@ -308,6 +314,7 @@ All JSON entries must contain:
 ## Error Handling
 
 The library provides robust error handling:
+
 - Validates JSON format and required fields
 - Continues processing on individual entry failures
 - Tracks detailed statistics
