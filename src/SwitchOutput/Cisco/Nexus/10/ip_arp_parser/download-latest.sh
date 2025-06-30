@@ -14,7 +14,7 @@ set -e
 
 # Default values
 PLATFORM=${1:-"linux-amd64"}
-REPO="ebmarquez/arc-switch"
+REPO="microsoft/arc-switch"
 
 # Function to get the latest release version from GitHub API
 get_latest_version() {

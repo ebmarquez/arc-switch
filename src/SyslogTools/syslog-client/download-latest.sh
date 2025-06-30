@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-REPO="ebmarquez/arc-switch"
+REPO="microsoft/arc-switch"
 TOOL_NAME="syslog-client"
 INSTALL_DIR="/usr/local/bin"
 

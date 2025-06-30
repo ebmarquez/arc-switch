@@ -16,7 +16,7 @@ This tool parses the output of the `show mac address-table` command from Cisco N
 
 ```bash
 # Download the parser-specific script
-wget https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
+wget https://raw.githubusercontent.com/microsoft/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
 chmod +x download-latest.sh
 ./download-latest.sh
 ```
@@ -36,7 +36,7 @@ Additional network parsing tools will be added in their respective directories w
 
 ## 🔗 Releases
 
-Visit the [Releases page](https://github.com/ebmarquez/arc-switch/releases) to see all available pre-compiled binaries for different platforms.
+Visit the [Releases page](https://github.com/microsoft/arc-switch/releases) to see all available pre-compiled binaries for different platforms.
 
 ## 🛠️ Development
 

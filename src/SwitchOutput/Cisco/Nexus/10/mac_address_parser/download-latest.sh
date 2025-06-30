@@ -10,7 +10,7 @@ set -e
 # Default values
 VERSION=${1:-"v0.0.3-alpha.1"}
 PLATFORM=${2:-"linux-amd64"}
-REPO="ebmarquez/arc-switch"
+REPO="microsoft/arc-switch"
 
 # Determine file extension based on platform
 if [[ "$PLATFORM" == *"windows"* ]]; then

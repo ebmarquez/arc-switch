@@ -8,7 +8,7 @@ This tool parses the output of the `show mac address-table` command from Cisco N
 
 ```bash
 # Download and run the script
-wget https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
+wget https://raw.githubusercontent.com/microsoft/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh
 chmod +x download-latest.sh
 
 # Download latest release for your platform
@@ -28,12 +28,12 @@ chmod +x download-latest.sh
 
 ```bash
 # Download and run in one command
-bash <(wget -qO- https://raw.githubusercontent.com/ebmarquez/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh)
+bash <(wget -qO- https://raw.githubusercontent.com/microsoft/arc-switch/main/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser/download-latest.sh)
 ```
 
 ### Option 3: Manual Download
 
-Visit the [Releases page](https://github.com/ebmarquez/arc-switch/releases) to download pre-compiled binaries for your platform.
+Visit the [Releases page](https://github.com/microsoft/arc-switch/releases) to download pre-compiled binaries for your platform.
 
 ## 🔧 Quick Usage with Pre-built Binary
 
@@ -69,7 +69,7 @@ If you prefer to build from source:
 
 ```bash
 # Clone the repository
-git clone https://github.com/ebmarquez/arc-switch.git
+git clone https://github.com/microsoft/arc-switch.git
 cd arc-switch/src/SwitchOutput/Cisco/Nexus/10/mac_address_parser
 
 # Build the binary
