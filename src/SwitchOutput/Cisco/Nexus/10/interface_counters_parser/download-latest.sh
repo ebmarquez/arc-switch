@@ -4,9 +4,9 @@
 # Requires: wget (preferred) or curl as fallback
 # Usage: ./download-latest.sh [platform] [version]
 #        ./download-latest.sh [version] (if version starts with 'v')
-# Examples: 
+# Examples:
 #   ./download-latest.sh                    # Auto-detect latest version, linux-amd64
-#   ./download-latest.sh windows-amd64      # Auto-detect latest version, windows-amd64  
+#   ./download-latest.sh windows-amd64      # Auto-detect latest version, windows-amd64
 #   ./download-latest.sh v0.0.6-alpha.1     # Specific version, linux-amd64
 #   ./download-latest.sh linux-arm64 v0.0.6-alpha.1 # Specific platform and version
 
@@ -20,9 +20,9 @@ REPO="ebmarquez/arc-switch"
 get_latest_version() {
     local latest_api_url="https://api.github.com/repos/${REPO}/releases/latest"
     local all_releases_api_url="https://api.github.com/repos/${REPO}/releases"
-    
+
     # First try to get the latest published release
-    if command -v curl &> /dev/null; then
+    if command -v curl &>/dev/null; then
         LATEST=$(curl -s "$latest_api_url" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ -n "$LATEST" ]; then
             echo "$LATEST"
@@ -30,7 +30,7 @@ get_latest_version() {
         fi
         # If no published release, get the first from all releases (including pre-releases)
         curl -s "$all_releases_api_url" | grep '"tag_name":' | head -1 | sed -E 's/.*"([^"]+)".*/\1/'
-    elif command -v wget &> /dev/null; then
+    elif command -v wget &>/dev/null; then
         LATEST=$(wget -qO- "$latest_api_url" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         if [ -n "$LATEST" ]; then
             echo "$LATEST"
@@ -77,7 +77,7 @@ elif [ -n "$1" ] && [[ "$1" == v* ]]; then
 elif [ -n "$1" ]; then
     # First argument provided but doesn't look like version, treat as platform
     # PLATFORM already set from $1, will auto-detect version
-    true  # No-op, just for clarity
+    true # No-op, just for clarity
 fi
 
 # If VERSION is not set by now, try to auto-detect
@@ -85,12 +85,12 @@ if [ -z "$VERSION" ]; then
     # Try to get latest version from GitHub API
     echo "🔍 Fetching latest release version from GitHub..."
     LATEST_VERSION=$(get_latest_version)
-    
+
     if [ -n "$LATEST_VERSION" ] && [ "$LATEST_VERSION" != "null" ]; then
         VERSION="$LATEST_VERSION"
         echo "📌 Latest version found: $VERSION"
     else
-        VERSION="v0.0.6-alpha.1"  # Fallback version
+        VERSION="v0.0.6-alpha.1" # Fallback version
         echo "⚠️  No releases found in repository, using fallback version: $VERSION"
         echo "💡 Note: The repository may not have published releases yet."
         echo "🔗 Check: https://github.com/${REPO}/releases"
@@ -119,9 +119,9 @@ echo
 
 # Check available download tools (prioritize wget since it's more commonly available)
 DOWNLOAD_TOOL=""
-if command -v wget &> /dev/null; then
+if command -v wget &>/dev/null; then
     DOWNLOAD_TOOL="wget"
-elif command -v curl &> /dev/null; then
+elif command -v curl &>/dev/null; then
     DOWNLOAD_TOOL="curl"
 else
     echo "❌ Error: Neither wget nor curl found."
@@ -157,9 +157,9 @@ fi
 # Verify checksum if available
 if [ -f "${FILENAME}.sha256" ]; then
     echo "✅ Verifying checksum..."
-    if command -v sha256sum &> /dev/null; then
+    if command -v sha256sum &>/dev/null; then
         sha256sum -c "${FILENAME}.sha256"
-    elif command -v shasum &> /dev/null; then
+    elif command -v shasum &>/dev/null; then
         shasum -a 256 -c "${FILENAME}.sha256"
     else
         echo "⚠️  Warning: No checksum utility found, skipping verification"
@@ -171,7 +171,7 @@ fi
 # Extract the package
 echo "📦 Extracting package..."
 if [[ "$EXT" == "zip" ]]; then
-    if command -v unzip &> /dev/null; then
+    if command -v unzip &>/dev/null; then
         unzip "$FILENAME"
     else
         echo "❌ Error: unzip not found. Please install unzip or extract manually."

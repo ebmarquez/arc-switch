@@ -32,9 +32,9 @@ echo
 
 # Check available download tools (prioritize wget since it's more commonly available)
 DOWNLOAD_TOOL=""
-if command -v wget &> /dev/null; then
+if command -v wget &>/dev/null; then
     DOWNLOAD_TOOL="wget"
-elif command -v curl &> /dev/null; then
+elif command -v curl &>/dev/null; then
     DOWNLOAD_TOOL="curl"
 else
     echo "❌ Error: Neither wget nor curl found."
@@ -70,9 +70,9 @@ fi
 # Verify checksum if available
 if [ -f "${FILENAME}.sha256" ]; then
     echo "✅ Verifying checksum..."
-    if command -v sha256sum &> /dev/null; then
+    if command -v sha256sum &>/dev/null; then
         sha256sum -c "${FILENAME}.sha256"
-    elif command -v shasum &> /dev/null; then
+    elif command -v shasum &>/dev/null; then
         shasum -a 256 -c "${FILENAME}.sha256"
     else
         echo "⚠️  Warning: No checksum utility found, skipping verification"
@@ -84,7 +84,7 @@ fi
 # Extract the package
 echo "📦 Extracting package..."
 if [[ "$EXT" == "zip" ]]; then
-    if command -v unzip &> /dev/null; then
+    if command -v unzip &>/dev/null; then
         unzip "$FILENAME"
     else
         echo "❌ Error: unzip not found. Please install unzip or extract manually."
